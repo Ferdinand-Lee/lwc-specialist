@@ -1,0 +1,62 @@
+<template>
+  <!-- div for when there are no reviews available -->
+  <div if:false={reviewsToShow}
+       class="slds-align_absolute-center">No reviews available</div>
+  <!-- div for when there are reviews available -->
+  <div if:true={reviewsToShow}
+       class="slds-feed reviews-style slds-is-relative slds-scrollable_y">
+    <!-- insert spinner -->
+    <lightning-spinner if:true={isLoading}
+                       size="small"
+                       variant="brand"
+                       alternative-text="Loading"></lightning-spinner>
+    <ul class="slds-feed__list">
+      <!-- start iteration -->
+      <li for:each={boatReviews}
+          for:item="boatReview"
+          class="slds-feed__item"
+          key={boatReview.Id}>
+        <article class="slds-post">
+          <header class="slds-post__header slds-media">
+            <div class="slds-media__figure">
+              <!-- display the creator’s picture -->
+              <lightning-avatar variant="circle"
+                                src={boatReview.CreatedBy.SmallPhotoUrl}></lightning-avatar>
+            </div>
+            <div class="slds-media__body">
+              <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                <p>
+                  <!-- display creator’s name -->
+                  <a title={boatReview.CreatedBy.Name}
+                     data-record-id={boatReview.CreatedBy.Id}
+                     href="javascript:void(0)"
+                     onclick={navigateToRecord}>{boatReview.CreatedBy.Name}</a>
+                  <span>
+                    <!-- display creator’s company name -->
+                    {boatReview.CreatedBy.CompanyName}
+                  </span>
+                </p>
+              </div>
+              <p class="slds-text-body_small">
+                <!-- display created  date -->
+                <lightning-formatted-date-time value={boatReview.CreatedDate}></lightning-formatted-date-time>
+              </p>
+            </div>
+          </header>
+          <div class="slds-text-longform">
+            <p class="slds-text-title_caps">
+              <!-- display Name -->
+              {boatReview.Name}
+            </p>
+            <!-- display Comment__c -->
+            <lightning-formatted-rich-text value={boatReview.Comment__c}></lightning-formatted-rich-text>
+          </div>
+          <!-- display five star rating on readonly mode -->
+          <c-five-star-rating read-only=true
+                              value={boatReview.Rating__c}></c-five-star-rating>
+        </article>
+      </li>
+      <!-- end iteration -->
+    </ul>
+  </div>
+</template>

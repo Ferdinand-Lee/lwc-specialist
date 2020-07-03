@@ -1,0 +1,15 @@
+{
+  "trailingComma": "none",
+  "semi": false,
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": "**/lwc/**/*.html",
+      "options": { "parser": "lwc" }
+    },
+    {
+      "files": "*.{cmp,page,component}",
+      "options": { "parser": "html" }
+    }
+  ]
+}
